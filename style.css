@@ -5,105 +5,69 @@
 
 body {
     background-image: linear-gradient(to right, #005dab, #002645);
+
 }
 
-/* Home page */
-
-/* .navbar {
-    
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    height: 55px;
-    background-color: white;
-    border-radius: 50px;
-    
-}
-
-
-.nav-links li {
-    padding-left: 20px;
-    padding-top: 15px;
-    padding-bottom: 20px;
-}
-
-.nav-links a {
-    text-decoration: none;
-    font-size: 18px;
-} */
 .home {
     margin-left: 2%;
 }
 
-
-nav ul li {
-    display: inline-block;
-    padding-right: 20px;
-    padding-top: 14px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-ul {
+#navbarSupportedContent {
+    margin-left: 5%;
+    margin-right: 10%;
     background-color: white;
+    padding-top: 15px;
+    padding-bottom: 10px;
     border-radius: 10px;
 }
 
-nav {
-    margin-top: 4%;
-    margin-bottom: 4%;
+nav ul li {
+    font-size: 20px;
+    font-weight: bold;
+    padding-left: 20px;
+}
+
+#Service {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: -6px;
+    border: none;
+    color: #007bff;
+}
+
+.menu-icon {
+    display: none;
 }
 
 #button1 {
     background-color: #fcd500;
     color: white;
     font-size: 20px;
-    margin: 10px;
-    padding: auto;
-    padding-top: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-left: 15px;
 }
 
 #button2 {
     background-color: #005dab;
     color: white;
     font-size: 17px;
-    margin: 10px;
-    padding: auto;
-    padding-top: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-left: 15px;
+    margin-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 
-#logo {
-    width: 90px;
-    height: 90px;
-    margin-top: 5%;
+#schedule_button {
+    background-color: #fcd500;
+    color: white;
+    font-size: 20px;
 }
 
-.width-50 {
-    width: 100%;
-    padding-bottom: 10%;
-    padding-left: 10%;
-    font-size: 30px;
-}
-
-.banner-section {
-    width: 100%;
+@media(max-width:1200px) {
+    #navbarSupportedContent {
+        margin: 0px;
+        gap: 20px;
+    }
 
 }
+
 
 #image {
     width: 80%;
@@ -119,6 +83,11 @@ nav {
     background-color: white;
 }
 
+#about_image {
+    width: 60%;
+    margin-left: 20%;
+}
+
 
 /* service page */
 .service {
@@ -127,12 +96,6 @@ nav {
 }
 
 
-.card-title {
-    text-align: center;
-    font-size: 16px;
-    padding-bottom: 10px;
-
-}
 
 #service_button {
     margin-left: 5%;
@@ -173,29 +136,30 @@ nav {
     color: #005dab;
 }
 
+
+
+
+/* Basic styles for the cards */
+.container.cards {
+    margin-top: 20px;
+
+}
+
+.card-container {
+    margin: 20px auto;
+    /* width: 40%; */
+}
+
 #card {
     width: 30%;
     margin-left: 20%;
     border-radius: 50%;
+    padding-bottom: 2%;
 }
 
 #card2 {
     width: 30%;
     margin-right: 17%;
-}
-
-/* Basic styles for the cards */
-.container.cards {
-    margin-top: 20px;
-}
-
-.card-container {
-    margin: 20px auto;
-    width: 40%;
-}
-
-.card {
-    border-radius: 20px;
 }
 
 .card-body {
@@ -209,19 +173,20 @@ nav {
 .card-text {
     font-size: 0.9em;
     margin-top: 10px;
+    text-align: left;
 }
 
 
 .team-member img {
     width: 50%;
     border-radius: 50%;
-  }
+}
 
-  .team-member {
+.team-member {
     text-align: center;
     padding: 20px;
-  }
-  
+}
+
 
 
 /* Basic styles */
@@ -240,12 +205,13 @@ nav {
     margin: 0 auto;
 }
 
-#buy_now{
+#buy_now {
     background-color: #005dab;
     color: white;
     margin-top: 3%;
 }
-#product_name{
+
+#product_name {
     padding-top: 10%;
     text-align: center;
     color: #005dab;
@@ -284,7 +250,7 @@ nav {
 #email,
 #message {
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
     border: solid 1px rgb(176, 175, 175);
 }
 
@@ -303,8 +269,66 @@ nav {
     width: 100%;
 }
 
+/* 
 .user {
     background-color: #d9e7f2;
+}
+
+#paragraph {
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+    margin: 5px 0;
+}
+
+#user_logo {
+    background-color: #fcd500;
+    border-radius: 50%;
+    color: white;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 24px;
+}
+
+#user_name {
+    margin-bottom: 10px;
+}
+
+#user_star {
+    width: 20px;
+}
+
+.user_credit {
+    padding-top: 15px;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-25%);
+    }
+    50% {
+        transform: translateX(-50%);
+    }
+    75% {
+        transform: translateX(-75%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+.user-stars {
+    display: flex;
+} */
+
+
+.user {
+    background-color: #d9e7f2;
+    padding: 20px;
 }
 
 #paragraph {
@@ -341,7 +365,6 @@ nav {
     display: flex;
 }
 
-
 /* PGM work */
 .steps {
     margin-top: -9%;
@@ -374,14 +397,53 @@ nav {
     padding-bottom: 2%;
 }
 
-@media (min-width: 768px) {
-    
-}
+/* @media (max-width: 1300px) {} */
 
 .content {
 
     color: white;
 }
+
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    position: absolute;
+    top: 0.75rem;
+    left: 1rem;
+    transition: all 0.3s ease;
+    background: white;
+    padding: 0 0.25rem;
+    color: #666;
+    pointer-events: none;
+}
+
+.form-group input:focus+label,
+.form-group input:not(:placeholder-shown)+label,
+.form-group textarea:focus+label,
+.form-group textarea:not(:placeholder-shown)+label {
+    top: -0.75rem;
+    left: 0.75rem;
+    font-size: 0.75rem;
+    color: gray;
+    font-size: 15px;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 1rem;
+    padding-top: 1.5rem;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: grey;
+    box-shadow: 0 0 0px;
+}
+
 
 .fooder_para {
     text-align: center;
@@ -392,32 +454,20 @@ nav {
     margin-bottom: 2%;
     font-size: 15px;
 }
+.about_header {
+    text-align: center;
+    font-size: 40px;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    font-weight: bold;
+}
 
 
 /* Media query for responsiveness */
 @media (max-width: 768px) {
 
-    /* .contect{
-        display: none;
-    }
-     */
-    .banner-section h1 {
-        font-size: 2em;
-    }
-
-    .banner-section h5 {
-        font-size: 1em;
-    }
-
-    .image-container {
-        margin: 0 auto;
-        max-width: 80%;
-        margin-bottom: 4%;
-    }
-
-    #image {
-        width: 100%;
-        height: auto;
+    #schedule_button {
+        
     }
 
     .card-container {
@@ -438,7 +488,6 @@ nav {
 
     .card-img-top {
         width: 30%;
-        /* Ensure image stays at 30% width */
     }
 
     .card-title {
@@ -473,7 +522,7 @@ nav {
     }
 
     .product-image {
-        width: 70%;
+        width: 45%;
         margin-bottom: 20px;
 
     }
@@ -501,7 +550,74 @@ nav {
     }
 
     .contect .header {
-        font-size: 30px;
+        font-size: 25px;
+    }
+
+    .user .header {
+        font-size: 25px;
+    }
+
+    .product .header {
+        font-size: 25px;
+    }
+
+    #offer_header {
+        font-size: 23px;
+    }
+
+    .user_content {
+        font-size: 15px;
+    }
+
+    #title {
+        font-size: 20px;
+    }
+
+    #title_content {
+        font-size: 15px;
+    }
+
+    .contect .header {
+        font-size: 25px;
+    }
+
+    #blog_header {
+        font-size: 25px;
+        margin-bottom: -30px;
+    }
+
+    .home_content1{
+        font-size: 25px;
+        
+    }
+    #home_content2{
+        font-size: 25px;
+        margin-top: -6px;
+    }
+    #home_content3{
+        font-size: 15px;
+        margin-top: -2px;
+    }
+    #schedule_button{
+        margin-bottom: 20px;
+        font-size: 15px;
+    }
+
+    #product_contect{
+        font-size: 14px;
+    }
+
+    #product_name{
+        font-size: 15px;
+    }
+
+    #buy_now{
+        font-size: 15px;
+    }
+
+    .about_header {
+        font-size: 25px;
+        padding-top: 15px;
     }
 
     .contect h6 {
@@ -520,6 +636,11 @@ nav {
         margin-left: auto;
         margin-right: auto;
         width: 50%;
+
+    }
+
+    .pgm_work {
+        margin-bottom: -10px;
     }
 
     #title {
@@ -529,6 +650,7 @@ nav {
     .pgm_work {
         text-align: center;
     }
+
     .pgm_work {
         padding: 40px;
     }
@@ -538,7 +660,90 @@ nav {
         margin-left: auto;
         margin-right: auto;
     }
+
+    #line {
+        display: none;
+    }
+
+    #about_content {
+        font-size: 14px;
+    }
+
+    #offer_title {
+        font-size: 14px;
+
+    }
+
+    #offer_rupees {
+        font-size: 20px;
+    }
+
+
+    #about_image {
+        width: 100%;
+        margin-left: 0%;
+    }
+
 }
-@media screen and (max-width:1200px) {
-    
+
+/* 
+@media (max-width:1200px) {
+    .navbar-toggler{
+        margin-left: 80%;
+    }
+} */
+
+/* @media (max-width:1026px) {
+    .navbar-nav{
+        width: 100%;
+        margin-left:20%;
+    }
+    .navbar-toggler{
+        margin-bottom: 40px;
+    }
+    #logo_icon{
+        width: 80px;
+    }
+    #navbar_name{
+        font-size: 30px;
+        font-weight: bold;
+        border: none;
+        color: #007bff;
+        padding: 0;
+        margin: 0;
+    }
+    .nav-item{
+        margin: 0px;
+    }
+
+} */
+
+
+
+
+.border_header {
+    -webkit-mask:
+        radial-gradient(circle 00px at top left, #0000 98%, #000) top left,
+        radial-gradient(circle 0px at top right, #0000 98%, #000) top right,
+        radial-gradient(circle 30px at bottom left, #0000 98%, #000) bottom left,
+        radial-gradient(circle 30px at bottom right, #0000 98%, #000) bottom right;
+    -webkit-mask-size: 51% 51%;
+    -webkit-mask-repeat: no-repeat;
+    border-bottom: 2px dashed white;
+    padding-left: 30px;
+    padding-right: 30px;
+    background-image: linear-gradient(to right, #005dab, #002645);
+    border-radius: 20px 20px 0 0;
+}
+
+.border_content {
+    -webkit-mask:
+        radial-gradient(circle 30px at top left, #0000 98%, #000) top left,
+        radial-gradient(circle 30px at top right, #0000 98%, #000) top right,
+        radial-gradient(circle 0px at bottom left, #0000 98%, #000) bottom left,
+        radial-gradient(circle 0px at bottom right, #0000 98%, #000) bottom right;
+    -webkit-mask-size: 51% 51%;
+    -webkit-mask-repeat: no-repeat;
+    background-color: #fcd500;
+
 }
