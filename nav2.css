@@ -3,12 +3,14 @@ nav {
 
 }
 
-.dropdown-item {
-    font-size: 20px;
+#dropDown {
+    font-size: 18px;
     color: #005dab;
     padding-left: 8px;
 }
-
+nav ul li a{
+    color: #005dab;
+}
 
 .navbar-brand img {
     margin-left: 20px;
@@ -109,6 +111,10 @@ nav {
     #button2 {
         margin-top: 10px;
         margin-left: 4%;
+    }
+    #logo{
+        width: 60px;
+
     }
 }
 
