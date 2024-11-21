@@ -198,7 +198,7 @@ body {
 #email,
 #message {
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 8px;
     border: solid 1px rgb(176, 175, 175);
 }
 
@@ -281,7 +281,7 @@ body {
 
 .form-group label {
     position: absolute;
-    top: 0.75rem;
+    top: 0.50rem !important;
     left: 1rem;
     transition: all 0.3s ease;
     background: white;
@@ -290,21 +290,32 @@ body {
     pointer-events: none;
 }
 
+/* When the input is focused */
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #005dab !important; /* Blue border */
+    border-width: 2px !important;
+}
+
+/* Styling for the label when input is focused or has text */
 .form-group input:focus+label,
 .form-group input:not(:placeholder-shown)+label,
 .form-group textarea:focus+label,
 .form-group textarea:not(:placeholder-shown)+label {
-    top: -0.75rem;
+    top: -0.75rem !important;
     left: 0.75rem;
     font-size: 0.75rem;
-    color: gray;
+    color: #005dab;
     font-size: 15px;
+    font-weight: 600;
 }
+
 
 .form-group input,
 .form-group textarea {
     padding: 1rem;
     padding-top: 1.5rem;
+    border-width: 2px !important;
 }
 
 .form-group input:focus,
@@ -599,12 +610,6 @@ body {
         padding: 40px;
     }
 
-    .steps {
-        margin-top: 0;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
     #line {
         display: none;
     }
@@ -719,6 +724,16 @@ body {
     .card-img-top {
         margin-top: 5%;
     }
+    #line {
+        width: 50% !important;
+    }
+    .steps {
+        margin-top: 0;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+
+    }
 
 }
 
@@ -793,22 +808,82 @@ body {
     #main {
         padding-top: 20%;
     }
+
+    #line{
+        width: 50%;
+    }
 }
 
-@media(max-width:497px) {
+
+@media (max-width:600px) {
+    #main{
+        margin-top: 19%;
+        padding-top: 0;
+    }
+
+    #main h1{
+        font-size: 18px;
+    }
+
+    #logo{
+        width: 70px !important;
+    }
+}
+
+@media (max-width:500px) {
+    #main{
+        margin-top: 29%;
+    }
     #card2 {
         margin-left: 0%;
     }
 
-    #main {
-        padding-top: 30%;
+    #main h1{
+        font-size: 20px;
     }
 
-    #logo {
-        width: 60px;
+    #logo{
+        width: 70px;
+    }
+    #service p{
+        font-size: 14px;
+        padding-top: 14px;
+    }
+
+    #offer_header{
+        font-size: 24px;
     }
 }
 
 
+@media (max-width:375px) {
+    #main{
+        margin-top: 35%;
+    }
+
+    #main h1{
+        font-size: 18px;
+    }
+
+    #logo{
+        width: 70px;
+    }
+
+    #service p{
+        font-size: 12px;
+        padding-top: 10px;
+    }
+}
+@media (max-width:290px) {
+    #main{
+        margin-top: 41% !important;
+    }
+    #main h1{
+        font-size: 16px !important;
+    }
+    #logo{
+        width: 60px !important;
+    }
+}
 
 
