@@ -114,6 +114,40 @@
     .dropdown:hover .dropdown-content {
         display: block;
     }
+
+
+.loading {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading .spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #005dab;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
 </style>
 
 <body>
@@ -1069,7 +1103,7 @@
                     </div>
                     <div class="form-group position-relative mb-3">
                         <input type="text" id="phone_number" class="form-control" name="name" placeholder=" " required>
-                        <label for="name">Phone</label>
+                        <label for="name">Phone</label> 
                     </div>
 
                     <div class="form-group position-relative mb-3">
@@ -1113,13 +1147,14 @@
                             required></textarea>
                         <label for="Discription">Discription</label>
                     </div>
-                    <div class="form-group position-relative mb-3">
-                        <input type="file" id="image" class="form-control" name="image" placeholder=" " multiple
-                            required>
-                        <label for="name">Your Name</label>
+                    <div class="form-group position-relative mb-3" style="width: 100%; max-width: 400px;">
+                        <input type="file" id="image" class="form-control" name="image" placeholder=" " multiple required style="height: 60px; font-size: 16px; padding: 20px;">
+                        <label for="image">Photo</label>
+                        <div id="preview" style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;"></div>
+                        <small id="fileError" style="color: red; display: none;">You can only upload up to 3 images.</small>
+                        <small id="fileMessage" style="color: #262a9e; display: block;">You can select up to 3 images</small>
                     </div>
-
-
+                    
                     <div class="form-group position-relative mb-3">
                         <input id="street" placeholder=" " class="form-control" type="text" required>
                         <label class="label-sty">Street</label>
@@ -1145,6 +1180,10 @@
 
             </div>
         </div>
+    </div>
+
+    <div class="loading" id="l">
+        <div class="spinner"></div>
     </div>
 
     <script src="script/offerPage.js"></script>
@@ -1229,14 +1268,21 @@
 
 
         document.getElementById('image').addEventListener('change', function (event) {
-            const files = event.target.files; // Get the FileList of selected files
+            const files = event.target.files;
+            if (files.length > 0) {
+                // Loop through each file in the FileList
+                for (let i = 0; i < files.length; i++) {
+                    if (files[i]) {
+                        images.push(files[i]); // Convert the file into a data URL
+                    }
+                }
+            }
 
             if (files.length > 0) {
                 // Loop through each file in the FileList
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
-                    images.push(file.name)
-                    console.log(images);  // Example: Log the name of the file
+                    
                 }
             }
         });
@@ -1257,11 +1303,61 @@
         }
 
 
+        async function imageLinkGet(files) {
+            let imageList = [null, null, null];
+            let i = 0;
+            for (const file of files) {
+                if (!file) { // Check if file is a valid Blob/File
+                    console.error("Invalid file object:", file);
+                    alert("Invalid file selected.");
+                    continue;
+                }
 
+                const base64Data = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result.split(",")[1]); // Extract Base64
+                    reader.onerror = (error) => reject(error); // Handle errors
+                    reader.readAsDataURL(file); // Start reading the file as a data URL
+                });
 
-        function postData() {
+                try {
+                    // Send Base64 data to the server
+                    const response = await fetch("https://m4j8v747jb.execute-api.us-west-2.amazonaws.com/dev/company_logo_upload", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            file_name: file.name,
+                            file_data: base64Data,
+                        }),
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        imageList[i++] = data.file_url;
+
+                        console.log("ghyygdhhgdfhjghsfdhsfdhgfds")
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                    alert("An error occurred during the upload. Please try again.");
+                }
+                console.log(imageList)
+            }
+
+            console.log(imageList);
+            return imageList;
+        }
+
+        async function postData() {
+            const loadingIndicator = document.getElementById('l'); // Ensure the loading indicator exists
+
+            loadingIndicator.style.display = 'flex';
             let resultString = mergeValues(ticket_type);
-            let imageInput = images.toString();
+            let imageInput = await imageLinkGet(images);
+
             const apiUrl = `https://m4j8v747jb.execute-api.us-west-2.amazonaws.com/dev/ticket/create`
             const today = new Date();
 
@@ -1273,8 +1369,7 @@
             // Format the date as DD-MM-YYYY
             const complain_raised_date = `${String(day).padStart(2, '0')}-${String(month).padStart(2, '0')}-${year}`;
             const complain_raised_date1 = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            console.log(complain_raised_date); // Output: 21-11-2024 (or the current date)
-            console.log(typeof complain_raised_date); 
+
 
             // Gather the data for the POST request
             const data = {
@@ -1282,7 +1377,9 @@
                 ticket_type: resultString,
                 name: document.getElementById("CustomerName")?.value || "",
                 phone_number: document.getElementById("phone_number")?.value || "",
-                images: imageInput,
+                ti_photo_1: imageInput[0],
+                ti_photo_2: imageInput[1],
+                ti_photo_3: imageInput[2],
                 status: 1,
                 complain_raised_date: complain_raised_date1,
                 description: document.getElementById("Discription")?.value || "",
@@ -1303,6 +1400,7 @@
                 body: JSON.stringify(data), // Convert the data object to a JSON string
             })
                 .then(response => {
+                    loadingIndicator.style.display = 'none';
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
@@ -1316,7 +1414,105 @@
                 });
         }
 
-
+                        const fileInput = document.getElementById('image');
+                        const preview = document.getElementById('preview');
+                        const fileError = document.getElementById('fileError');
+                        const fileMessage = document.getElementById('fileMessage');
+                        let selectedFiles = []; // Keep track of selected files
+                    
+                        // Function to update the message visibility
+                        function updateMessage() {
+                            // Show the placeholder message when no files are selected
+                            if (selectedFiles.length === 0) {
+                                fileMessage.style.display = 'block';
+                                fileError.style.display = 'none';
+                            } else if (selectedFiles.length > 3) {
+                                // Show the error message if more than 3 files are selected
+                                fileError.style.display = 'block';
+                                fileMessage.style.display = 'none';
+                            } else {
+                                // Hide both messages if between 1 and 3 files are selected
+                                fileMessage.style.display = 'none';
+                                fileError.style.display = 'none';
+                            }
+                        }
+                    
+                        fileInput.addEventListener('change', (event) => {
+                            const files = Array.from(event.target.files);
+                    
+                            // If more than 3 files are selected, don't allow the additional files
+                            if (selectedFiles.length + files.length > 3) {
+                                fileInput.value = ""; 
+                                updateMessage(); 
+                                return;
+                            }
+                    
+                            // Add selected files to the selectedFiles array and create previews
+                            files.forEach((file, index) => {
+                                selectedFiles.push(file);
+                    
+                                // Create image preview container
+                                const container = document.createElement('div');
+                                container.style.position = 'relative';
+                                container.style.width = '60px';
+                                container.style.height = '60px';
+                    
+                                // Create image element
+                                const img = document.createElement('img');
+                                const reader = new FileReader();
+                                reader.onload = function (e) {
+                                    img.src = e.target.result;
+                                    img.style.width = "100%";
+                                    img.style.height = "100%";
+                                    img.style.objectFit = "cover";
+                                    img.alt = `Selected Image ${index + 1}`;
+                                };
+                                reader.readAsDataURL(file);
+                    
+                                // Create delete button
+                                const deleteBtn = document.createElement('span');
+                                deleteBtn.innerHTML = '&times;';
+                                deleteBtn.style.position = 'absolute';
+                                deleteBtn.style.top = '1px';
+                                deleteBtn.style.right = '1px';
+                                deleteBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+                                deleteBtn.style.color = 'blue';
+                                deleteBtn.style.borderRadius = '50%';
+                                deleteBtn.style.width = '20px';
+                                deleteBtn.style.height = '20px';
+                                deleteBtn.style.display = 'flex';
+                                deleteBtn.style.justifyContent = 'center';
+                                deleteBtn.style.alignItems = 'center';
+                                deleteBtn.style.cursor = 'pointer';
+                    
+                                // Delete functionality
+                                deleteBtn.addEventListener('click', () => {
+                                    container.remove();
+                                    selectedFiles = selectedFiles.filter((f) => f !== file);
+                                    console.log("Remaining Files:", selectedFiles);
+                    
+                                    // Re-enable the file input if less than 3 files remain
+                                    if (selectedFiles.length < 3) {
+                                        fileInput.disabled = false;
+                                    }
+                    
+                                    updateMessage(); // Update message visibility
+                                });
+                    
+                                // Append elements
+                                container.appendChild(img);
+                                container.appendChild(deleteBtn);
+                                preview.appendChild(container);
+                            });
+                    
+                            // Disable file input if 3 files are selected
+                            if (selectedFiles.length === 3) {
+                                fileInput.disabled = true;
+                            }
+                    
+                            updateMessage(); // Update message visibility
+                            console.log("Selected Files:", selectedFiles);
+                        });
 
 
     </script>
