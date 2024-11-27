@@ -5,12 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- CSS files -->
+   
     <link rel="stylesheet" href="css/nav.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/offer.css">
     <link rel="stylesheet" href="css/testimonial.css">
     <link rel="stylesheet" href="css/animation.css">
-
+    <link rel="stylesheet" href="css/Sucess.css">
+    <link rel="stylesheet" href="css/spinner.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
@@ -71,7 +73,7 @@
     }
 
     #selectedValues {
-        background-color: #005dab;
+        
         color: white;
         padding: 0.5rem 1rem;
         border: none;
@@ -80,18 +82,34 @@
         border-radius: 5px;
         transition: background-color 0.3s ease;
     }
+    #selectedValues1 {
+    width: 340px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+}
 
-    #selectedValues:hover {
-        background-color: #003f7f;
+#selectedValues1:hover {
+    border-color: #005dab;
+    color: #005dab;
+}
+
+/* Media query for mobile view */
+@media (max-width: 768px) {
+    #selectedValues1 {
+        width: 250px; 
+        font-size: 14px; 
+        padding: 8px;
     }
+}
 
+   
     /* Dropdown content */
     .dropdown-content {
         display: none;
         position: absolute;
         background-color: #f9f9f9;
-        min-width: 200px;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        min-width: 250px;
         z-index: 1;
         border-radius: 5px;
         padding: 0.5rem 1rem;
@@ -114,40 +132,64 @@
     .dropdown:hover .dropdown-content {
         display: block;
     }
-
-
-.loading {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
+    .form {
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-    justify-content: center;
+    padding: 6px;
+    
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    background: white;
+    transition: border-color 0.3s ease, color 0.3s ease; 
+}
+
+.form:hover {
+    border-color: #005dab; 
+    color: #005dab;       
+}
+.custom-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align items to the top */
+    padding: 1.5rem;
+    background-color: #0046b8; /* Blue background */
+    color: white; /* White text for title and paragraph */
+    border-bottom: 1px solid #e0e0e0; /* Optional border */
+    font-family: Arial, sans-serif;
+    flex-wrap: wrap; /* Allow the content to wrap */
+}
+
+.modal-title {
+    font-size: 18px;
     align-items: center;
+    margin: 0 0 0.5rem 0; /* Space below title */
+    color: #fcd500;
 }
 
-.loading .spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #005dab;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-
+.modal-subtitle {
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0; /* No extra margin for a clean look */
 }
 
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+.close {
+    position: absolute; /* Position the close button relative to the parent */
+    top: 15px; /* Distance from the top of the modal header */
+    right: 15px; /* Distance from the right of the modal header */
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
 }
+
+.close:hover {
+    color: #ff5a5a; /* Hover effect for close button */
+}
+
 </style>
 
 <body>
@@ -210,9 +252,9 @@
                     <h5 style="color: white; font-weight: normal; padding-top: 10px; padding-bottom: 20px; text-align: center;"
                         id="home_content3">Experience top-notch HVAC services tailored to your
                         needs, ensuring comfort in every season</h5>
-                    <a href="https://pgmechllc.com/customer.html">
-                        <button class="btn" type="button" id="schedule_button"
-                            style="text-align: center; font-weight: bold;">Schedule</button>
+                    <a>
+                        <button class="btn" id="button1" data-toggle="modal"
+                            data-target="#exampleModalLong">Schedule</button>
                     </a>
                 </div>
             </div>
@@ -1090,12 +1132,19 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content custom-modal-content" style="width: 80%;">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <div class="modal-header custom-modal-header">
+                    <div>
+                        <h6 class="modal-title" id="exampleModalLongTitle">Schedule Your AC Repair Today</h6>
+                        <p class="modal-subtitle">
+                            Book a hassle-free repair appointment in just a few steps. Provide your details, describe the issue, and choose a convenient time—we’ll take care of the rest!
+                        </p>
+                    </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                
+                
                 <div class="modal-body" style="padding: 30px;">
                     <div class="form-group position-relative mb-3">
                         <input type="text" id="CustomerName" class="form-control" name="name" placeholder=" " required>
@@ -1115,17 +1164,15 @@
                         <input type="text" id="name" class="form-control" name="name" placeholder=" " required>
                         <label for="name">City</label>
                     </div>
-                    <div class="dropdown">
-                        <button id="selectedValues">Select Options</button>
-                        <div class="dropdown-content">
-                            <label>
-                                <input type="checkbox" value="AC" class="checkbox"> AC
-                            </label>
-                            <label>
-                                <input type="checkbox" value="Refrigerator " class="checkbox"> Refrigerator
-                            </label>
-                        </div>
+                  <div class="form-group position-relative mb-3">
+                        <label></label>
+                        <select class="form">
+                            <option value="" >Issue Type</option>
+                            <option value="AC">AC</option>
+                            <option value="Refrigerator">Refrigerator</option>
+                        </select>
                     </div>
+                    
                     <div class="dropdown dropdown1">
                         <button id="selectedValues1">available_slots</button>
                         <div class="dropdown-content dropdown-content1">
@@ -1179,6 +1226,24 @@
                 </div>
 
             </div>
+        </div>
+    </div>
+    <!-- pop -->
+    <div id="popupModal">
+        <div class="modal-content">
+            <h3>Success!</h3>
+            <p>Your Complaint has been Registered. Our Team will contact you!</p>
+            <div class="checkmark-container">
+                <svg viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
+                    <g stroke="currentColor" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path class="circle"
+                            d="M13 1C6.372583 1 1 6.372583 1 13s5.372583 12 12 12 12-5.372583 12-12S19.627417 1 13 1z" />
+                        <path class="tick" d="M6.5 13.5L10 17 l8.808621-8.308621" />
+                    </g>
+                </svg>
+            </div>
+            <button class="close-btn  " id="closePopup">Done</button>
         </div>
     </div>
 
@@ -1353,6 +1418,13 @@
 
         async function postData() {
             const loadingIndicator = document.getElementById('l'); // Ensure the loading indicator exists
+            
+            const mainContent = document.getElementById('main');
+            const modal = document.getElementById("exampleModalLong");
+            modal.classList.remove("show"); // Hides the modal
+            // modal.style.display = "none";  // Ensures display is none
+            mainContent.classList.add('blur-background');
+            
 
             loadingIndicator.style.display = 'flex';
             let resultString = mergeValues(ticket_type);
@@ -1407,6 +1479,15 @@
                     return response.json();
                 })
                 .then(responseData => {
+                    
+                    mainContent.classList.remove('blur-background');       
+                    const popupModal = document.getElementById('popupModal');
+                    popupModal.style.display = 'block';
+                    const closePopup = document.getElementById('closePopup');
+                    
+                    closePopup.addEventListener('click', function () {
+                            window.location.href = 'index.html'; 
+                        });
                     console.log('Success:', responseData); // Handle success
                 })
                 .catch(error => {

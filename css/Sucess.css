@@ -1,0 +1,87 @@
+#popupModal .modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+    text-align: center;
+    border-radius: 8px;
+}
+#popupModal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    backdrop-filter: blur(10px);
+    
+    /* Background blur */
+}
+.checkmark-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+}
+
+.circle {
+    stroke-dasharray: 76;
+    stroke-dashoffset: 76;
+    animation: draw 1s forwards;
+
+
+
+    stroke: #4CAF50;
+    fill: none;
+    animation: drawCircle 1s ease-in-out forwards;
+}
+
+@keyframes drawCircle {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.tick {
+    stroke-dasharray: 18;
+    stroke-dashoffset: 18;
+    stroke: #4CAF50;
+    animation: draw 1s forwards 1s;
+}
+
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+   
+
+   
+   /* CSS */
+   .close-btn {
+     background-color:  #98ee9b;
+     border-radius: 100px;
+     box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+     color:  #005dab;
+     cursor: pointer;
+     display: inline-block;
+     font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+     padding: 7px 20px;
+     text-align: center;
+     text-decoration: none;
+     transition: all 250ms;
+     border: 0;
+     font-size: 16px;
+     user-select: none;
+     -webkit-user-select: none;
+     touch-action: manipulation;
+   }
+   
+   .close-btn:hover {
+     box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+     transform: scale(1.05) ;
+   }
