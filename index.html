@@ -41,6 +41,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <title>PG Mechanical</title>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
@@ -1124,9 +1126,6 @@
     </div>
 
 
-
-
-
     <!-- Modal -->
     <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
         aria-hidden="true">
@@ -1134,7 +1133,7 @@
             <div class="modal-content custom-modal-content" style="width: 80%;">
                 <div class="modal-header custom-modal-header">
                     <div>
-                        <h6 class="modal-title" id="exampleModalLongTitle">Schedule Your AC Repair Today</h6>
+                        <h6 class="modal-title" id="exampleModalLongTitle">Schedule Your AC/Refrigerator Repair Today</h6>
                         <p class="modal-subtitle">
                             Book a hassle-free repair appointment in just a few steps. Provide your details, describe the issue, and choose a convenient time—we’ll take care of the rest!
                         </p>
@@ -1312,20 +1311,13 @@
         // Add event listeners to checkboxes
         checkboxes1.forEach(checkbox => {
             checkbox.addEventListener('change', () => {
-                // Get the values of checked checkboxes
-                const values = Array.from(checkboxes1) // Use checkboxes1 instead of checkboxes
-                    .filter(chk => chk.checked)       // Filter to get checked boxes
-                    .map(chk => chk.value);           // Extract the value of each checked box
+                const values = Array.from(checkboxes1) 
+                    .filter(chk => chk.checked)       
+                    .map(chk => chk.value);           
 
-                // Update the selected values text
                 selectedValues1.textContent = values.length ? values.join(', ') : 'Select Options';
-
-                // Log the text content, not value, of selectedValues
                 console.log(selectedValues1.textContent);
                 available_slots = selectedValues1.textContent;
-
-                // You can push the selected values to an array if needed
-                // ticket_type.push(selectedValues1.textContent);
             });
         });
 
@@ -1335,16 +1327,14 @@
         document.getElementById('image').addEventListener('change', function (event) {
             const files = event.target.files;
             if (files.length > 0) {
-                // Loop through each file in the FileList
                 for (let i = 0; i < files.length; i++) {
                     if (files[i]) {
-                        images.push(files[i]); // Convert the file into a data URL
+                        images.push(files[i]);
                     }
                 }
             }
 
             if (files.length > 0) {
-                // Loop through each file in the FileList
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
                     
@@ -1356,14 +1346,9 @@
             let result = new Set();
 
             values.forEach(item => {
-                // Split the item into individual parts (e.g., "AC, Refrigerator" -> ["AC", "Refrigerator"])
                 let parts = item.split(',').map(part => part.trim());
-
-                // Add each part to the Set (removes duplicates automatically)
                 parts.forEach(part => result.add(part));
             });
-
-            // Join the Set back into a single string
             return Array.from(result).join(', ');
         }
 
@@ -1416,184 +1401,171 @@
             return imageList;
         }
 
-        async function postData() {
-            const loadingIndicator = document.getElementById('l'); // Ensure the loading indicator exists
+async function postData() {
+    const loadingIndicator = document.getElementById('l'); 
+    const modal = document.getElementById("exampleModalLong");
+    modal.classList.remove("show");
+    loadingIndicator.style.display = 'flex'
+
+    
+    let resultString = mergeValues(ticket_type);
+    let imageInput = await imageLinkGet(images);
+
+    const apiUrl = `https://m4j8v747jb.execute-api.us-west-2.amazonaws.com/dev/ticket/create`
+    const today = new Date();
+
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1; 
+    const day = today.getDate();
+
+    const complain_raised_date1 = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+    const data = {
+        company_id: "ShddWeFGFGkk9b67STTJY4",
+        ticket_type: resultString,
+        name: document.getElementById("CustomerName")?.value || "",
+        phone_number: document.getElementById("phone_number")?.value || "",
+        ti_photo_1: imageInput[0],
+        ti_photo_2: imageInput[1],
+        ti_photo_3: imageInput[2],
+        status: 1,
+        complain_raised_date: complain_raised_date1,
+        description: document.getElementById("Discription")?.value || "",
+        available_slots: available_slots,
+        street: document.getElementById("street")?.value || "",
+        city: document.getElementById("city")?.value || "",
+        state: document.getElementById("state")?.value || "",
+        zip: document.getElementById("zip")?.value || ""
+    };
+
+
+    return fetch(apiUrl, {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json', 
+        },
+        body: JSON.stringify(data), 
+    })
+        .then(response => {
+            loadingIndicator.style.display = 'none';
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(responseData => {
+            loadingIndicator.style.display = 'none';
+            const popupModal = document.getElementById('popupModal');
+            popupModal.style.display = 'block';
+            const closePopup = document.getElementById('closePopup');
             
-            const mainContent = document.getElementById('main');
-            const modal = document.getElementById("exampleModalLong");
-            modal.classList.remove("show"); // Hides the modal
-            // modal.style.display = "none";  // Ensures display is none
-            mainContent.classList.add('blur-background');
-            
-
-            loadingIndicator.style.display = 'flex';
-            let resultString = mergeValues(ticket_type);
-            let imageInput = await imageLinkGet(images);
-
-            const apiUrl = `https://m4j8v747jb.execute-api.us-west-2.amazonaws.com/dev/ticket/create`
-            const today = new Date();
-
-            // Extract specific components
-            const year = today.getFullYear();
-            const month = today.getMonth() + 1; // Months are zero-based
-            const day = today.getDate();
-
-            // Format the date as DD-MM-YYYY
-            const complain_raised_date = `${String(day).padStart(2, '0')}-${String(month).padStart(2, '0')}-${year}`;
-            const complain_raised_date1 = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-
-
-            // Gather the data for the POST request
-            const data = {
-                company_id: "ShddWeFGFGkk9b67STTJY4",
-                ticket_type: resultString,
-                name: document.getElementById("CustomerName")?.value || "",
-                phone_number: document.getElementById("phone_number")?.value || "",
-                ti_photo_1: imageInput[0],
-                ti_photo_2: imageInput[1],
-                ti_photo_3: imageInput[2],
-                status: 1,
-                complain_raised_date: complain_raised_date1,
-                description: document.getElementById("Discription")?.value || "",
-                available_slots: available_slots,
-                street: document.getElementById("street")?.value || "",
-                city: document.getElementById("city")?.value || "",
-                state: document.getElementById("state")?.value || "",
-                // zip: document.getElementById("zip")?.value || ""
-            };
-
-
-            // Use fetch to send the POST request
-            return fetch(apiUrl, {
-                method: 'POST', // Specify the request method
-                headers: {
-                    'Content-Type': 'application/json', // Set the content type to JSON
-                },
-                body: JSON.stringify(data), // Convert the data object to a JSON string
-            })
-                .then(response => {
-                    loadingIndicator.style.display = 'none';
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(responseData => {
-                    
-                    mainContent.classList.remove('blur-background');       
-                    const popupModal = document.getElementById('popupModal');
-                    popupModal.style.display = 'block';
-                    const closePopup = document.getElementById('closePopup');
-                    
-                    closePopup.addEventListener('click', function () {
-                            window.location.href = 'index.html'; 
-                        });
-                    console.log('Success:', responseData); // Handle success
-                })
-                .catch(error => {
-                    console.error('Error:', error); // Handle errors
+                closePopup.addEventListener('click', function () {
+                popupModal.style.display = 'none';
+                    window.location.href = 'index.html'; 
                 });
+
+                setTimeout(() => {
+                    window.location.href = 'index.html'; 
+                        }, 2200);
+        })
+        .catch(error => {
+            console.error('Error:', error); // Handle errors
+        });
+}
+
+const fileInput = document.getElementById('image');
+const preview = document.getElementById('preview');
+const fileError = document.getElementById('fileError');
+const fileMessage = document.getElementById('fileMessage');
+let selectedFiles = []; 
+                    
+                        
+function updateMessage() {
+                            
+        if (selectedFiles.length === 0) {
+            fileMessage.style.display = 'block';
+            fileError.style.display = 'none';
+        } else if (selectedFiles.length > 3) {
+            fileError.style.display = 'block';
+            fileMessage.style.display = 'none';
+        } else {
+            fileMessage.style.display = 'none';
+            fileError.style.display = 'none';
+        }
+    }
+
+fileInput.addEventListener('change', (event) => {
+        const files = Array.from(event.target.files);
+        if (selectedFiles.length + files.length > 3) {
+            fileInput.value = ""; 
+            updateMessage(); 
+            return;
+        }
+        files.forEach((file, index) => {
+            selectedFiles.push(file);
+
+            
+            const container = document.createElement('div');
+            container.style.position = 'relative';
+            container.style.width = '60px';
+            container.style.height = '60px';
+
+            
+            const img = document.createElement('img');
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                img.src = e.target.result;
+                img.style.width = "100%";
+                img.style.height = "100%";
+                img.style.objectFit = "cover";
+                img.alt = `Selected Image ${index + 1}`;
+            };
+            reader.readAsDataURL(file);
+
+            // Create delete button
+            const deleteBtn = document.createElement('span');
+            deleteBtn.innerHTML = '&times;';
+            deleteBtn.style.position = 'absolute';
+            deleteBtn.style.top = '1px';
+            deleteBtn.style.right = '1px';
+            deleteBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+            deleteBtn.style.color = 'blue';
+            deleteBtn.style.borderRadius = '50%';
+            deleteBtn.style.width = '20px';
+            deleteBtn.style.height = '20px';
+            deleteBtn.style.display = 'flex';
+            deleteBtn.style.justifyContent = 'center';
+            deleteBtn.style.alignItems = 'center';
+            deleteBtn.style.cursor = 'pointer';
+
+            // Delete functionality
+            deleteBtn.addEventListener('click', () => {
+                container.remove();
+                selectedFiles = selectedFiles.filter((f) => f !== file);
+                console.log("Remaining Files:", selectedFiles);
+
+                // Re-enable the file input if less than 3 files remain
+                if (selectedFiles.length < 3) {
+                    fileInput.disabled = false;
+                }
+
+                updateMessage(); // Update message visibility
+            });
+
+            // Append elements
+            container.appendChild(img);
+            container.appendChild(deleteBtn);
+            preview.appendChild(container);
+        });
+
+        // Disable file input if 3 files are selected
+        if (selectedFiles.length === 3) {
+            fileInput.disabled = true;
         }
 
-                        const fileInput = document.getElementById('image');
-                        const preview = document.getElementById('preview');
-                        const fileError = document.getElementById('fileError');
-                        const fileMessage = document.getElementById('fileMessage');
-                        let selectedFiles = []; // Keep track of selected files
-                    
-                        // Function to update the message visibility
-                        function updateMessage() {
-                            // Show the placeholder message when no files are selected
-                            if (selectedFiles.length === 0) {
-                                fileMessage.style.display = 'block';
-                                fileError.style.display = 'none';
-                            } else if (selectedFiles.length > 3) {
-                                // Show the error message if more than 3 files are selected
-                                fileError.style.display = 'block';
-                                fileMessage.style.display = 'none';
-                            } else {
-                                // Hide both messages if between 1 and 3 files are selected
-                                fileMessage.style.display = 'none';
-                                fileError.style.display = 'none';
-                            }
-                        }
-                    
-                        fileInput.addEventListener('change', (event) => {
-                            const files = Array.from(event.target.files);
-                    
-                            // If more than 3 files are selected, don't allow the additional files
-                            if (selectedFiles.length + files.length > 3) {
-                                fileInput.value = ""; 
-                                updateMessage(); 
-                                return;
-                            }
-                    
-                            // Add selected files to the selectedFiles array and create previews
-                            files.forEach((file, index) => {
-                                selectedFiles.push(file);
-                    
-                                // Create image preview container
-                                const container = document.createElement('div');
-                                container.style.position = 'relative';
-                                container.style.width = '60px';
-                                container.style.height = '60px';
-                    
-                                // Create image element
-                                const img = document.createElement('img');
-                                const reader = new FileReader();
-                                reader.onload = function (e) {
-                                    img.src = e.target.result;
-                                    img.style.width = "100%";
-                                    img.style.height = "100%";
-                                    img.style.objectFit = "cover";
-                                    img.alt = `Selected Image ${index + 1}`;
-                                };
-                                reader.readAsDataURL(file);
-                    
-                                // Create delete button
-                                const deleteBtn = document.createElement('span');
-                                deleteBtn.innerHTML = '&times;';
-                                deleteBtn.style.position = 'absolute';
-                                deleteBtn.style.top = '1px';
-                                deleteBtn.style.right = '1px';
-                                deleteBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-                                deleteBtn.style.color = 'blue';
-                                deleteBtn.style.borderRadius = '50%';
-                                deleteBtn.style.width = '20px';
-                                deleteBtn.style.height = '20px';
-                                deleteBtn.style.display = 'flex';
-                                deleteBtn.style.justifyContent = 'center';
-                                deleteBtn.style.alignItems = 'center';
-                                deleteBtn.style.cursor = 'pointer';
-                    
-                                // Delete functionality
-                                deleteBtn.addEventListener('click', () => {
-                                    container.remove();
-                                    selectedFiles = selectedFiles.filter((f) => f !== file);
-                                    console.log("Remaining Files:", selectedFiles);
-                    
-                                    // Re-enable the file input if less than 3 files remain
-                                    if (selectedFiles.length < 3) {
-                                        fileInput.disabled = false;
-                                    }
-                    
-                                    updateMessage(); // Update message visibility
-                                });
-                    
-                                // Append elements
-                                container.appendChild(img);
-                                container.appendChild(deleteBtn);
-                                preview.appendChild(container);
-                            });
-                    
-                            // Disable file input if 3 files are selected
-                            if (selectedFiles.length === 3) {
-                                fileInput.disabled = true;
-                            }
-                    
-                            updateMessage(); // Update message visibility
-                            console.log("Selected Files:", selectedFiles);
-                        });
+        updateMessage(); // Update message visibility
+        console.log("Selected Files:", selectedFiles);
+});
 
 
     </script>
