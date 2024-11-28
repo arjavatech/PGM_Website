@@ -1211,9 +1211,9 @@
 
 
                     <div class="form-group position-relative mt-3 mb-3">
-                        <textarea id="Discription" class="form-control" rows="2" name="Discription" placeholder=" "
+                        <textarea id="Description" class="form-control" rows="2" name="Description" placeholder=" "
                             required></textarea>
-                        <label for="Discription">Discription</label>
+                        <label for="Description">Description</label>
                     </div>
                     <div class="form-group position-relative mb-3" style="width: 100%; max-width: 400px;">
                         <input type="file" id="image" class="form-control" name="image" placeholder=" " multiple required style="height: 60px; font-size: 16px; padding: 20px;">
@@ -1283,7 +1283,7 @@
     const phone = document.getElementById('phone_number');
     // const address = document.getElementById('Address');
     const issueType = document.querySelector('.form')?.value;
-    const description = document.getElementById('Discription');
+    const description = document.getElementById('Description');
     const images = document.getElementById('image');
     const street = document.getElementById('street');
     const cityField = document.getElementById('city');
@@ -1569,7 +1569,7 @@ async function postData()
 
   
 
-    let resultString = mergeValues(ticket_type);
+    let resultString = document.querySelector('.form').value;
     let imageInput = await imageLinkGet(images);
 
     const apiUrl = `https://m4j8v747jb.execute-api.us-west-2.amazonaws.com/dev/ticket/create`;
@@ -1586,13 +1586,14 @@ async function postData()
         ti_photo_3: imageInput[2],
         status: 1,
         complain_raised_date: complain_raised_date1,
-        description: document.getElementById("Discription")?.value || "",
+        description: document.getElementById("Description")?.value || "",
         available_slots: available_slots,
         street: document.getElementById("street")?.value || "",
         city: document.getElementById("city")?.value || "",
         state: document.getElementById("state")?.value || "",
         zip: document.getElementById("zip")?.value || ""
     };
+
 
     try {
         const response = await fetch(apiUrl, {
