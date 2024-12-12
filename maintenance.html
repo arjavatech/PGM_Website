@@ -347,6 +347,10 @@
                     <label for="name">Phone</label> 
                 </div>
                 <div class="form-group position-relative mb-3">
+                    <input type="email" id="email" class="form-control" name="name" placeholder=" " required>
+                    <label for="name">Email</label> 
+                </div>
+                <div class="form-group position-relative mb-3">
                   <select class="form">
                         <option value="" >Issue Type</option>
                         <option value="AC">AC</option>
@@ -738,6 +742,7 @@ let ticket_type = [];
         ticket_type: resultString,
         name: document.getElementById("CustomerName")?.value || "",
         phone_number: document.getElementById("phone_number")?.value || "",
+        email: document.getElementById("user_email")?.value || "",
         ti_photo_1: imageInput[0],
         ti_photo_2: imageInput[1],
         ti_photo_3: imageInput[2],
