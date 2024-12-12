@@ -41,7 +41,7 @@ nav ul li a:hover {
 }
 
 .navbar-nav .nav-link {
-    color: #005dab;
+    color: #005dab !important;
 }
 
 .navbar-nav .nav-link:hover {
