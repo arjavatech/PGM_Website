@@ -843,7 +843,7 @@ body {
     }
 
     #logo{
-        width: 70px;
+        width: 70px !important;
     }
     #service p{
         font-size: 14px;
@@ -857,8 +857,15 @@ body {
 
 
 @media (max-width:375px) {
+    .fooder_para{
+        font-size: 8px;
+    }
     #main{
-        margin-top: 35%;
+        margin-top: 29%;
+    }
+
+    .navbar-nav{
+        padding-left: 0px !important;
     }
 
     #main h1{
@@ -866,12 +873,15 @@ body {
     }
 
     #logo{
-        width: 70px;
+        width: 50px !important;
     }
 
     #service p{
         font-size: 12px;
         padding-top: 10px;
+    }
+    #main h5{
+        font-size: 12px !important;
     }
 }
 @media (max-width:290px) {
@@ -881,8 +891,12 @@ body {
     #main h1{
         font-size: 16px !important;
     }
+    #main h5{
+        font-size: 12px !important;
+        text-align: justify !important;
+    }
     #logo{
-        width: 60px !important;
+        width: 45px !important;
     }
 }
 
